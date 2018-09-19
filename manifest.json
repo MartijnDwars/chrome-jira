@@ -1,0 +1,14 @@
+{
+  "name": "JIRA rewriter",
+  "version": "1.0",
+  "description": "Rewrite JIRA ticket ID to the page.",
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "permissions": [
+    "webNavigation",
+    "tabs"
+  ],
+  "manifest_version": 2
+}
