@@ -1,15 +1,23 @@
 chrome.webNavigation.onBeforeNavigate.addListener(function (event) {
   console.log('On before navigate', event);
 
-  var url = event.url;
-  var re = /^https:\/\/www\.google\.co\.uk\/search\?q=GM-(\d+)/
-  var matches = url.match(re)
+  var regexs = [
+    /^https:\/\/www\.google\.co\.uk\/search\?q=GM-(\d+)/,
+    /^https:\/\/www\.google\.ch\/search\?q=GM-(\d+)/
+  ];
 
-  if (matches && matches.length >= 1) {
-    console.log('URL ' + url + ' matches, issue ID = GM-' + matches[1]);
+  for (index in regexs) {
+    var regex = regexs[index];
+    var matches = event.url.match(regex)
 
-    chrome.tabs.update(event.tabId, {
-      url: 'http://ol-jira.us.oracle.com/browse/GM-' + matches[1]
-    });
+    if (matches && matches.length >= 2) {
+      console.log('URL ' + event.url + ' matches, issue ID = GM-' + matches[1]);
+
+      chrome.tabs.update(event.tabId, {
+        url: 'http://ol-jira.us.oracle.com/browse/GM-' + matches[1]
+      });
+
+      break;
+    }
   }
 });
